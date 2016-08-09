@@ -47,6 +47,8 @@ charactersElement.addEventListener('keydown', (event) => {
 
 function updateProgress(linesNext, linesTotal) {
   d3.select('#progress').html(`Task: <a href="tasks/${TASK}/lines" target="_blank">${TASK}<a> (${linesNext}/${linesTotal})`)
+  d3.select('#input-csv').html(`Download <a href="tasks/${TASK}/input.csv" target="_blank">input.csv</a>`)
+
 }
 
 d3.json(`tasks/${TASK}`, (task) => {

@@ -11,8 +11,16 @@ body, a, a:visited {
   color: #111;
 }
 
+p {
+  margin: .5em 0;
+}
+
 h1, h2, .center {
   text-align: center;
+}
+
+h1 {
+  margin: .2em 0;
 }
 
 input {

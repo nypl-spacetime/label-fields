@@ -63,8 +63,21 @@ app.get('/tasks/:task/lines', (req, res) => {
 })
 
 app.get('/tasks/:task/input.csv', (req, res) => {
-  db.submissionsCountForTask(req.params.task, (err, results) => {
-    res.send(results)
+  db.submissionsForTask(req.params.task, (err, results) => {
+    var writer = csvWriter()
+    writer.pipe(res)
+
+    const rows = results
+      .filter((row) => R.any(R.identity, R.values(row.fields)))
+      .map((row, i) => Object.assign({
+        index: i,
+        input: row.input
+      }, row.fields))
+      .forEach((row) => {
+        writer.write(row)
+      })
+
+    writer.end()
   })
 })
 
@@ -126,41 +139,6 @@ app.post('/tasks/:task/lines/:line', (req, res) => {
     }
   })
 })
-
-//
-// H(fs.createReadStream('./data/lines.txt'))
-//   .split()
-//   .toArray((l) => {
-//     lines = l
-//   })
-//
-// app.get('/line', function (req, res) {
-//
-//   datasets/josh-2016-08-08.txt
-//   res.send({
-//     index: inputCsv.length,
-//     input: lines[inputCsv.length]
-//   })
-// })
-//
-
-//
-// app.get('/config', function (req, res) {
-//   res.send(config)
-// })
-//
-// app.get('/input.csv', function (req, res) {
-//   if (inputCsv.length) {
-//     var writer = csvWriter()
-//     writer.pipe(res)
-//     inputCsv.forEach((row) => {
-//       writer.write(row)
-//     })
-//     writer.end()
-//   } else {
-//     res.send('')
-//   }
-// })
 
 app.listen(PORT, function () {
   console.log(`CRF Classify listening on port ${PORT}!`)
