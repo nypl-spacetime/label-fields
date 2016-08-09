@@ -1,0 +1,42 @@
+body {
+  background-color: #fafafa;
+  color: #111;
+  width: 800px;
+  max-width: 90%;
+  margin: 0 auto;
+  font-size: 30px;
+  font-family: monospace;
+}
+
+h1, h2, .center {
+  text-align: center;
+}
+
+input {
+  width: 100%;
+}
+
+.text {
+  font-size: 50%;
+}
+
+#characters {
+  padding: .2em;
+  margin-bottom: 1em;
+}
+
+.field-1 {
+  background-color: #7fc97f
+}
+
+.field-2 {
+  background-color: #beaed4
+}
+
+.field-3 {
+  background-color: #fdc086
+}
+
+.field-4 {
+  background-color: #ffff99
+}
