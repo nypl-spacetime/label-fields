@@ -46,7 +46,7 @@ charactersElement.addEventListener('keydown', (event) => {
 })
 
 function updateProgress(linesNext, linesTotal) {
-  d3.select('#progress').html(`Task: ${TASK} (${linesNext} / ${linesTotal})`)
+  d3.select('#progress').html(`Task: <a href="tasks/${TASK}/lines" target="_blank">${TASK}<a> (${linesNext}/${linesTotal})`)
 }
 
 d3.json(`tasks/${TASK}`, (task) => {

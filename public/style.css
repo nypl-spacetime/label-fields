@@ -1,11 +1,14 @@
 body {
   background-color: #fafafa;
-  color: #111;
   width: 800px;
   max-width: 90%;
   margin: 0 auto;
   font-size: 30px;
   font-family: monospace;
+}
+
+body, a, a:visited {
+  color: #111;
 }
 
 h1, h2, .center {
