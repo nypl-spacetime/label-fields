@@ -3,7 +3,7 @@ body {
   width: 800px;
   max-width: 90%;
   margin: 0 auto;
-  font-size: 30px;
+  font-size: 28px;
   font-family: monospace;
 }
 
@@ -32,8 +32,37 @@ input {
 }
 
 #characters {
-  padding: .2em;
+  padding: .3em .5em;
   margin-bottom: 1em;
+  background-color: white;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #999;
+}
+
+ol {
+  list-style-type: none;
+  margin: 0.5em 0;
+  padding: 0;
+  counter-reset: counter;
+}
+
+li:before {
+  counter-increment: counter;
+  content: counter(counter) '. ';
+}
+
+li {
+  padding: .1em 0.3em;
+}
+
+li:first-child {
+  border-radius: 5px 5px 0 0;
+}
+
+li:last-child {
+  border-radius: 0 0 5px 5px;
 }
 
 .field-1 {
