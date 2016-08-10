@@ -41,27 +41,27 @@ input {
   border-color: #999;
 }
 
-ol {
+ol#fields {
   list-style-type: none;
   margin: 0.5em 0;
   padding: 0;
-  counter-reset: counter;
+  counter-reset: fieldCounter;
 }
 
-li:before {
-  counter-increment: counter;
-  content: counter(counter) '. ';
+ol#fields li:before {
+  counter-increment: fieldCounter;
+  content: counter(fieldCounter) '. ';
 }
 
-li {
+ol#fields li {
   padding: .1em 0.3em;
 }
 
-li:first-child {
+ol#fields li:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-li:last-child {
+ol#fields li:last-child {
   border-radius: 0 0 5px 5px;
 }
 
