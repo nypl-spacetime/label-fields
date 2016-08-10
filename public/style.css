@@ -65,6 +65,21 @@ li:last-child {
   border-radius: 0 0 5px 5px;
 }
 
+#fields li {
+  box-sizing: border-box;
+  border-color: rgba(0, 0, 0, .2);
+  border-style: solid;
+  border-width: 1px 2px 1px 2px;
+}
+
+#fields li:first-child {
+  border-top-width: 2px;
+}
+
+#fields li:last-child {
+  border-bottom-width: 2px;
+}
+
 .field-1 {
   background-color: #7fc97f
 }
