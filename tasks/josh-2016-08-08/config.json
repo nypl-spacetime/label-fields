@@ -1,8 +1,0 @@
-{
-  "fields": [
-    "name",
-    "profession",
-    "business_address",
-    "home_address"
-  ]
-}

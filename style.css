@@ -1,9 +1,9 @@
 body {
   background-color: #fafafa;
-  width: 800px;
+  width: 900px;
   max-width: 90%;
   margin: 0 auto;
-  font-size: 28px;
+  font-size: 25px;
   font-family: monospace;
 }
 
@@ -28,7 +28,15 @@ input {
 }
 
 .text {
-  font-size: 50%;
+  font-size: 60%;
+}
+
+#error span {
+  background-color: rgba(255, 30, 30, 0.9);
+  padding: 0.4em;
+  border-radius: 5px;
+  margin: 1em;
+  display: block;
 }
 
 #characters {
@@ -39,6 +47,10 @@ input {
   border-style: solid;
   border-width: 2px;
   border-color: #999;
+}
+
+#characters *::selection {
+  background: rgba(0, 0, 0, .2);
 }
 
 ol#fields {
@@ -78,20 +90,4 @@ ol#fields li:last-child {
 
 #fields li:last-child {
   border-bottom-width: 2px;
-}
-
-.field-1 {
-  background-color: #7fc97f
-}
-
-.field-2 {
-  background-color: #beaed4
-}
-
-.field-3 {
-  background-color: #fdc086
-}
-
-.field-4 {
-  background-color: #ffff99
 }

@@ -1,4 +1,4 @@
-# CRF Classify
+# label-fields
 
 Simple crowdsourcing tool for classifying and labeling training data for a conditional random field model (CRF) - used in [Space/Time Directory](http://spacetime.nypl.org) project to extract data from digitized New York City city directories.
 
