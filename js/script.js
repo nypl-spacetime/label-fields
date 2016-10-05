@@ -190,17 +190,22 @@ function submit(characters) {
     fieldsData[field] = null
   })
 
-  characters.forEach((c) => {
+  characters.forEach((c, index) => {
     if (c.field) {
       skipped = false
 
       var field = fields[c.field - 1]
 
       if (!fieldsData[field]) {
-        fieldsData[field] = ''
+        fieldsData[field] = {
+          text: '',
+          from: index,
+          to: index
+        }
       }
 
-      fieldsData[field] = fieldsData[field] + c.character
+      fieldsData[field].text = fieldsData[field].text + c.character
+      fieldsData[field].to = index
     }
   })
 
