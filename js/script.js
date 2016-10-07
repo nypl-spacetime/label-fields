@@ -1,4 +1,4 @@
-var API_URL = 'http://surveyor-api.dev/'
+var API_URL = 'http://brick-by-brick.herokuapp.com/'
 var TASK = 'label-fields'
 
 var colors = d3.schemePastel1
