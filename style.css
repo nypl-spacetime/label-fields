@@ -79,8 +79,10 @@ form {
 }
 
 ol#fields {
+  width: 50%;
   list-style-type: none;
   margin: 0.5em 0;
+  margin: 1em auto;
   padding: 0;
   counter-reset: fieldCounter;
 }
@@ -92,7 +94,7 @@ ol#fields li:before {
 
 ol#fields li {
   padding: .1em 0.3em;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 ol#fields li:first-child {

@@ -26,9 +26,8 @@ document.getElementById('form').addEventListener('submit', function (event) {
   submit(characters)
 })
 
-document.addEventListener('selectionchange', function (event) {
-  console.log('seeeele')
-})
+// document.addEventListener('selectionchange', function (event) {
+// })
 
 charactersElement.addEventListener('keydown', function (event) {
   if (event.metaKey) {
@@ -54,10 +53,31 @@ function updateSelection(field) {
     if (field <= item.collection.data.fields.length) {
       var range = selection.getRangeAt(0)
 
+      if (range.collapsed) {
+        return
+      }
+
       var startIndex = getCharacterIndex(range.startContainer)
       var endIndex = getCharacterIndex(range.endContainer)
 
-      characters.forEach((c, i) => {
+      // This is needed for Firefox;
+      //   Firebox includes too many elements in selection
+      var rangeString = range.toString()
+      var selectionLength = endIndex - startIndex + 1
+      var lengthDiff = selectionLength - rangeString.length
+
+      if (lengthDiff === 2) {
+        startIndex += 1
+        endIndex -= 1
+      } else if (lengthDiff === 1) {
+        if (startIndex === 0) {
+          endIndex -= 1
+        } else {
+          startIndex += 1
+        }
+      }
+
+      characters.forEach(function (c, i) {
         if (i >= startIndex && i <= endIndex) {
           c.field = field
         } else if (c.field === field) {
@@ -86,11 +106,11 @@ function updateFields(fields) {
       .html(function (d) {
         return d
       })
-      .on('click', function(d, i) {
-        console.log( window.getSelection())
-        d3.event.preventDefault()
-        updateSelection(i + 1)
-      })
+      // .on('click', function(d, i) {
+      //   console.log( window.getSelection())
+      //   d3.event.preventDefault()
+      //   updateSelection(i + 1)
+      // })
 
   li.exit().remove()
 }

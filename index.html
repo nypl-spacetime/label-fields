@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>NYPL Label Fields</title>
+    <title>Label Fields - NYC Space/Time Directory</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="{{ site.brick-by-brick-js }}style.css">
@@ -19,13 +19,11 @@
     </div>
     <h1>📝 Label Fields 📝</h1>
     <div class="center error" id="error"></div>
-    <p class="center" id="progress"></p>
-    <p class="center" id="input-csv"></p>
-    <form id="form" spellcheck="false">
-      <div id="characters" contenteditable="true" tabindex="0"></div>
-      <input id="submit" type="submit" />
-    </form>
     <article class="hidden">
+      <form id="form" spellcheck="false">
+        <div id="characters" contenteditable="true" tabindex="0"></div>
+        <input id="submit" type="submit" value="Submit" />
+      </form>
       <div class="text">
         Select field in the text box above, press the respective number key, repeat, and press enter when done! To <i>untag</i> a selection, press 0.
         When the text contains no fields or does not comply to the expected structure, just press enter.
