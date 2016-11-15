@@ -1,37 +1,49 @@
+---
+---
 <!doctype html>
-<htmllang="en">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>NYPL Label Fields</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
-    <script src="js/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="{{ site.brick-by-brick-js }}style.css">
+    <script src="{{ site.brick-by-brick-js }}fetch.js"></script>
+    <script src="{{ site.brick-by-brick-js }}promise.min.js"></script>
+    <script src="{{ site.brick-by-brick-js }}d3.v4.min.js"></script>
+    <script src="{{ site.brick-by-brick-js }}brick-by-brick.js"></script>
     <script src="js/d3-scale-chromatic.v1.min.js"></script>
   </head>
   <body>
-    <h1>Label Fields</h1>
+    <div id="oauth">
+    </div>
+    <h1>📝 Label Fields 📝</h1>
     <div class="center error" id="error"></div>
     <p class="center" id="progress"></p>
     <p class="center" id="input-csv"></p>
-    <div id="characters" contenteditable="true" tabindex="0">
-    </div>
-    <div class="text">
-      Select field in the text box above, press the respective number key, repeat, and press enter when done! To <i>untag</i> a selection, press 0.
-      When the text contains no fields or does not comply to the expected structure, just press enter.
-      <ul>
-        <li>Only select the terms, <b>no spaces and separating commas</b></li>
-        <li>Include the period in profession or name abbreviations, like <b>com. mer.</b></li>
-        <li>Do not include house address type abbreviations, like <b>h.</b> and <b>r.</b>
-      </ul>
-    </div>
-    <p class="center">
-      Fields:
-    </p>
-    <ol id="fields">
-    </ol>
-    <p class="center">
-    	•
-    </p>
+    <form id="form" spellcheck="false">
+      <div id="characters" contenteditable="true" tabindex="0"></div>
+      <input id="submit" type="submit" />
+    </form>
+    <article class="hidden">
+      <div class="text">
+        Select field in the text box above, press the respective number key, repeat, and press enter when done! To <i>untag</i> a selection, press 0.
+        When the text contains no fields or does not comply to the expected structure, just press enter.
+        <ul>
+          <li>Only select the terms, <b>no spaces and separating commas</b></li>
+          <li>Include the period in profession or name abbreviations, like <b>com. mer.</b></li>
+          <li>Do not include house address abbreviation <b>h.</b>
+        </ul>
+      </div>
+      <p class="center">
+        Fields:
+      </p>
+      <ol id="fields">
+      </ol>
+      <p class="center">
+      	•
+      </p>
+    </article>
     <script src="js/script.js"></script>
   </body>
 </html>

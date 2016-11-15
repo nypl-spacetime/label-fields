@@ -3,12 +3,19 @@ body {
   width: 900px;
   max-width: 90%;
   margin: 0 auto;
-  font-size: 25px;
+}
+
+body, input, button {
+  font-size: 18px;
   font-family: monospace;
 }
 
 body, a, a:visited {
   color: #111;
+}
+
+.hidden {
+  display: none;
 }
 
 p {
@@ -23,12 +30,28 @@ h1 {
   margin: .2em 0;
 }
 
-input {
-  width: 100%;
+form {
+  display: flex;
 }
 
-.text {
-  font-size: 60%;
+#oauth {
+  text-align: center;
+  padding: 1em;
+}
+
+#title, #submit {
+  padding: .3em .5em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #999;
+}
+
+#submit {
+  border-color: #ffbd00;
+  background-color: white;
+  cursor: pointer;
 }
 
 #error span {
@@ -40,8 +63,10 @@ input {
 }
 
 #characters {
+  width: 100%;
   padding: .3em .5em;
   margin-bottom: 1em;
+  margin-right: 1em;
   background-color: white;
   border-radius: 5px;
   border-style: solid;
@@ -67,6 +92,7 @@ ol#fields li:before {
 
 ol#fields li {
   padding: .1em 0.3em;
+  cursor: pointer;
 }
 
 ol#fields li:first-child {

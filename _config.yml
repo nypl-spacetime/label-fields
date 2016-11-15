@@ -1,0 +1,3 @@
+baseurl: /select-landmark
+brick-by-brick-js: http://spacetime.nypl.org/brick-by-brick.js/
+api-url: http://brick-by-brick.herokuapp.com/

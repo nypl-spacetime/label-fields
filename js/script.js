@@ -1,7 +1,16 @@
-var API_URL = 'http://brick-by-brick.herokuapp.com/'
-var TASK = 'label-fields'
+---
+---
+var API_URL = '{{ site.api-url }}'
+var TASK_ID = 'label-fields'
 
 var colors = d3.schemePastel1
+
+var elements = {
+  error: document.getElementById('error'),
+  oauth: document.getElementById('oauth')
+}
+
+var brickByBrick = BrickByBrick(API_URL, TASK_ID, null, elements)
 
 var item = {}
 var characters = []
@@ -12,50 +21,16 @@ function getCharacterIndex(container) {
   return parseInt(container.parentNode.getAttribute('data-character-index'))
 }
 
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response
-  } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    error.status = response.status
-    throw error
-  }
-}
+document.getElementById('form').addEventListener('submit', function (event) {
+  event.preventDefault()
+  submit(characters)
+})
 
-function parseJSON(response) {
-  return response.json()
-}
+document.addEventListener('selectionchange', function (event) {
+  console.log('seeeele')
+})
 
-function postJSON(url, data, callback) {
-  fetch(url, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(function(data) {
-      callback(null, data)
-    }).catch(callback)
-}
-
-function getJSON(url, callback) {
-  fetch(url, {
-    credentials: 'include'
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(function(data) {
-      callback(null, data)
-    }).catch(callback)
-}
-
-charactersElement.addEventListener('keydown', (event) => {
+charactersElement.addEventListener('keydown', function (event) {
   if (event.metaKey) {
     return
   }
@@ -65,82 +40,78 @@ charactersElement.addEventListener('keydown', (event) => {
     event.preventDefault()
   } else if (event.keyCode >= 37 && event.keyCode <= 40) {
   } else if (event.keyCode >= 48 && event.keyCode <= 57) {
-    var selection = window.getSelection()
-    if (selection) {
-      var field = event.keyCode - 48
-
-      if (field <= item.collection.data.fields.length) {
-        var range = selection.getRangeAt(0)
-
-        var startIndex = getCharacterIndex(range.startContainer)
-        var endIndex = getCharacterIndex(range.endContainer)
-
-        characters.forEach((c, i) => {
-          if (i >= startIndex && i <= endIndex) {
-            c.field = field
-          } else if (c.field === field) {
-            c.field = 0
-          }
-        })
-
-        updateCharacters(characters)
-      }
-    }
+    var field = event.keyCode - 48
+    updateSelection(field)
     event.preventDefault()
   } else {
     event.preventDefault()
   }
 })
 
-function setError(err) {
-  var message
+function updateSelection(field) {
+  var selection = window.getSelection()
+  if (selection) {
+    if (field <= item.collection.data.fields.length) {
+      var range = selection.getRangeAt(0)
 
-  if (err) {
-    if (err.status === 404) {
-      message = 'Done! Finished! Nothing to do!'
-    } else {
-      message = err.message
+      var startIndex = getCharacterIndex(range.startContainer)
+      var endIndex = getCharacterIndex(range.endContainer)
+
+      characters.forEach((c, i) => {
+        if (i >= startIndex && i <= endIndex) {
+          c.field = field
+        } else if (c.field === field) {
+          c.field = 0
+        }
+      })
+
+      updateCharacters(characters)
     }
-  } else {
-    message = 'Error getting task from server'
   }
-
-  d3.select('#error').append('span').html(message)
-}
-
-function updateProgress(linesNext, linesTotal) {
-  d3.select('#progress').html(`Task: <a href="tasks/${TASK}/lines" target="_blank">${TASK}<a> (${linesNext}/${linesTotal})`)
-  d3.select('#input-csv').html(`Download <a href="tasks/${TASK}/input.csv" target="_blank">input.csv</a>`)
 }
 
 function updateFields(fields) {
   var li = d3.select('#fields').selectAll('li')
       .data(fields, function(d, i) {
-        return `${i}:${d}`
+        return i + ':' + d
       })
 
   li.enter().append('li')
-      .attr('class', (d, i) => `field-${i + 1}`)
-      .style('background-color', (d, i) => colors[i])
-      .html((d) => d)
+      .attr('class', function (d, i) {
+         return 'field-' + (i + 1)
+      })
+      .style('background-color', function (d, i) {
+        return colors[i]
+      })
+      .html(function (d) {
+        return d
+      })
+      .on('click', function(d, i) {
+        console.log( window.getSelection())
+        d3.event.preventDefault()
+        updateSelection(i + 1)
+      })
 
   li.exit().remove()
 }
 
-function updateMetadata(item) {
-
-}
-
 function updateCharacters(characters) {
-  var input = characters.map((c) => c.character).join('')
+  var input = characters.map(function (c) {
+    return c.character
+  }).join('')
+
   var spans = d3.select('#characters').selectAll('span')
-    .data(characters, (d, i) => `${input}-${i}`)
+    .data(characters, function (d, i) {
+      return input + '-' + i
+    })
 
   spans.enter()
     .append('span')
     .merge(spans)
-      .attr('data-character-index', (d, i) => i)
-      .style('background-color', (d) => {
+      .attr('data-character-index', function (d, i) {
+        return i
+      })
+      .style('background-color', function (d) {
         if (d.field === 0) {
           return
         } else {
@@ -148,49 +119,53 @@ function updateCharacters(characters) {
           return colors[d.field - 1]
         }
       })
-      .html((d) => d.character)
+      .html(function (d) {
+        return d.character
+      })
 
   spans.exit().remove()
 }
 
-function loadItem() {
-  // TODO: clear selection!
+function getItem() {
+  brickByBrick.getItem()
+    .then(function (nextItem) {
+      item = nextItem
 
-  const url = `${API_URL}tasks/${TASK}/items/random`
-  getJSON(url, (err, nextItem) => {
-    if (!nextItem || err) {
-      setError(err)
-      return
-    }
+      d3.select('article')
+        .classed('hidden', false)
 
-    item = nextItem
+      var text = item.data.text
+      updateFields(item.collection.data.fields)
 
-    var text = item.data.text
-    updateFields(item.collection.data.fields)
-    updateMetadata(item)
+      characters = text.split('')
+        .map(function (c) {
+          return {
+            character: c,
+            field: 0
+          }
+        })
 
-    // updateProgress(line.index, linesTotal)
-
-    characters = text.split('')
-      .map((c) => ({
-        character: c,
-        field: 0
-      }))
-
-    updateCharacters(characters)
-  })
+      updateCharacters(characters)
+    })
+    .catch(function (err) {
+      console.error(err.message)
+    })
 }
 
 function submit(characters) {
+  if (!item || !item.id) {
+    return
+  }
+
   var fields = item.collection.data.fields
   var fieldsData = {}
   var skipped = true
 
-  fields.forEach((field) => {
+  fields.forEach(function (field) {
     fieldsData[field] = null
   })
 
-  characters.forEach((c, index) => {
+  characters.forEach(function (c, index) {
     if (c.field) {
       skipped = false
 
@@ -209,26 +184,20 @@ function submit(characters) {
     }
   })
 
-  var url = `${API_URL}items/${item.provider}/${item.id}`
+  var data
 
-  var body = {
-    task: TASK
+  if (!skipped) {
+    data = fieldsData
   }
 
-  if (skipped) {
-    body.skipped = true
-  } else {
-    body.data = fieldsData
-  }
-
-  postJSON(url, body, (err, results) => {
-    if (err) {
-      setError(err)
-    } else {
-      loadItem()
-    }
-  })
+  brickByBrick.postSubmission(item.organization.id, item.id, data)
+    .then(function () {
+      getItem()
+    })
+    .catch(function (err) {
+      console.error(err.message)
+    })
 }
 
-loadItem()
+getItem()
 charactersElement.focus()
